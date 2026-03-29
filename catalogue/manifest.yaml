@@ -1,9 +1,18 @@
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: catalogue
+#   namespace: roboshop
+# data:
+#   MONGO: "true"
+#   MONGO_URL: "mongodb://mongodb:27017/catalogue"
+# ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: catalogue
   namespace: roboshop
-  # these are thereplica set labels
+  # these are replica set labels
   labels:
     project: roboshop
     component: catalogue
@@ -11,7 +20,7 @@ metadata:
 spec:
   replicas: 1
   selector:
-  # these are used to select pods
+    # these labels are used to select pods
     matchLabels:
       project: roboshop
       component: catalogue
@@ -20,24 +29,28 @@ spec:
   template:
     metadata:
       labels:
-       project: roboshop
-       component: catalogue
-       tier: backend
+        project: roboshop
+        component: catalogue
+        tier: backend
     spec:
       containers:
       - name: catalogue
         image: sgraju/catalogue:v1
+#        imagePullPolicy: Always
+#        envFrom:
+#        - configMapRef:
+#            name: catalogue
         ports:
         - name: liveness-port
           containerPort: 8080
-          readinessProbe:
-            httpGet:
-             path: /health
-             port: liveness-port
-            failureThreshold: 1
-            periodSeconds: 15
-          livenessProbe:
-           httpGet:
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: liveness-port
+          failureThreshold: 1
+          periodSeconds: 15
+        livenessProbe:
+          httpGet:
             path: /health
             port: liveness-port
           failureThreshold: 1
@@ -50,8 +63,8 @@ metadata:
   namespace: roboshop
 spec:
   selector:
-    project: catalogue
-    component: mongodb
+    project: roboshop
+    component: catalogue
     tier: backend
   ports:
     - protocol: TCP
