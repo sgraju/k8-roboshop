@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: sgraju/mysql:v1
+        image: joindevops/mysql:v1
         imagePullPolicy: Always
         readinessProbe:
           tcpSocket:
