@@ -4,7 +4,7 @@ metadata:
   name: payment
   namespace: roboshop
 data:
-  CART_HOST: "cart" 
+  CART_HOST: "cart"
   CART_PORT: "8080"
   USER_HOST: "user"
   USER_PORT: "8080"
@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: sgraju/payment:v1
+        image: joindevops/payment:v1
         imagePullPolicy: Always
         envFrom:
         - configMapRef:
