@@ -4,7 +4,7 @@ metadata:
   name: mysql
   namespace: roboshop
 data:
-  my.conf:
+  my.conf: |
     [mysqld]
     innodb_redo_log_capacity = 2G
 ---
